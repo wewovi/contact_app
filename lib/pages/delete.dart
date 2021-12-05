@@ -6,19 +6,19 @@ class Delete extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(" delete"),
-      content: Text("Are you sure you want to delete?"),
+      title: Text("Confirm Delete"),
+      content: Text("Are you sure you want to delete this contact?"),
       actions: [
-        TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(true);
-            },
-            child: Text("Yes")),
         TextButton(
             onPressed: () {
               Navigator.of(context).pop(false);
             },
             child: Text("No")),
+        TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(true);
+            },
+            child: Text("Yes")),
       ],
     );
   }

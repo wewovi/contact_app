@@ -3,9 +3,14 @@ import 'package:contacts_app/pages/contactDetails.dart';
 import 'package:contacts_app/pages/delete.dart';
 import 'package:flutter/material.dart';
 
-class ContactHomeView extends StatelessWidget {
+class ContactHomeView extends StatefulWidget {
   ContactHomeView({Key? key});
 
+  @override
+  State<ContactHomeView> createState() => _ContactHomeViewState();
+}
+
+class _ContactHomeViewState extends State<ContactHomeView> {
   final contactApp = [
     Contact(
         number: "+233207885790",
@@ -24,17 +29,17 @@ class ContactHomeView extends StatelessWidget {
         email: "joanodoi12@gmail.com"),
     Contact(
         number: "+233207885790",
-        id: "2",
+        id: "3",
         name: "Joan Odoi",
         email: "joanodoi12@gmail.com"),
     Contact(
         number: "+233207885790",
-        id: "2",
+        id: "4",
         name: "Joan Odoi",
         email: "joanodoi12@gmail.com"),
     Contact(
         number: "+233207885790",
-        id: "2",
+        id: "5",
         name: "Joan Odoi",
         email: "joanodoi12@gmail.com"),
   ];
@@ -77,43 +82,22 @@ class ContactHomeView extends StatelessWidget {
           preferredSize: Size.fromHeight(kToolbarHeight),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(items: const [
-        BottomNavigationBarItem(
-            icon: Icon(
-              Icons.dialpad,
-              color: Colors.grey,
-            ),
-            label: "DialPad"),
-        BottomNavigationBarItem(
-            icon: Icon(
-              Icons.contact_phone,
-              color: Colors.grey,
-            ),
-            label: "PhoneBook"),
-        BottomNavigationBarItem(
-            icon: Icon(
-              Icons.call_made,
-              color: Colors.grey,
-            ),
-            label: "Callog"),
-        BottomNavigationBarItem(
-            icon: Icon(
-              Icons.settings,
-              color: Colors.grey,
-            ),
-            label: "Settings"),
-      ]),
       body: ListView.separated(
           itemBuilder: (context, index) => Dismissible(
+                key: ValueKey(contactApp[index].id),
                 background: Container(
                   color: Colors.red,
                   child: Icon(Icons.delete),
                 ),
-                key: ValueKey(contactApp[index].id),
+                onDismissed: (direction) {
+                  setState(() {
+                    contactApp.removeAt(index);
+                  });
+                },
+                //secondaryBackground: Container(color: Colors.green),
                 direction: DismissDirection.startToEnd,
-                onDismissed: (direction) {},
                 confirmDismiss: (direction) async {
-                  final results = await showDialog(
+                  var results = await showDialog(
                       context: context, builder: (context) => Delete());
                   return results;
                 },
@@ -136,16 +120,18 @@ class ContactHomeView extends StatelessWidget {
                       style: TextStyle(fontSize: 15)),
                   trailing: IconButton(
                       onPressed: () {
-                        showModalBottomSheet(
-                            // isScrollControlled: true,
-                            context: context,
-                            builder: (context) => Container(
-                                  height: 300,
-                                ));
+                        // showModalBottomSheet(
+                        //     // isScrollControlled: true,
+                        //     context: context,
+                        //     builder: (context) => Container(
+                        //           height: 300,
+                        //         ));
                       },
                       icon: const Icon(Icons.more_horiz)),
                 ),
               ),
+
+          //),
           separatorBuilder: (context, index) => const Divider(
                 color: Colors.black,
                 height: 2,
